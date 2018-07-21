@@ -1,10 +1,10 @@
 # About
-Docker compose for influxdb and grafana stack
+Docker compose for influxdb, grafana, and collectd stack
 
 
 ## Deployment
 
-Get the stack (only once):
+Pull stack:
 ```
 docker-compose pull
 ```
