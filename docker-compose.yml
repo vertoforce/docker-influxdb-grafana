@@ -1,27 +1,29 @@
-influxdb:
-  image: influxdb:latest
-  container_name: influxdb
-  ports:
-    - "8083:8083"
-    - "8086:8086"
-    - "8090:8090"
-  env_file:
-    - 'env.influxdb'
-  volumes:
-    # Data persistency
-    # sudo mkdir -p /srv/docker/influxdb/data
-    - ./influxdb/data:/var/lib/influxdb
+version: '3'
 
-grafana:
-  image: grafana/grafana:latest
-  container_name: grafana
-  ports:
-    - "3000:3000"
-  env_file:
-    - 'env.grafana'
-  links:
-    - influxdb
-  volumes:
-    # Data persistency
-    # sudo mkdir -p /srv/docker/grafana/data; chown 472:472 /srv/docker/grafana/data
-    - ./grafana/data:/var/lib/grafana
+services:
+    influxdb:
+        build: influxdb/
+        container_name: influxdb
+        ports:
+            - "8083:8083"
+            - "8086:8086"
+            - "8090:8090"
+            - "25826:25826/udp"
+        volumes:
+            # Data persistency
+            - ./influxdb_data:/var/lib/influxdb
+            - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf
+        environment:
+            - INFLUXDB_DB=collectd_db
+    grafana:
+        image: grafana/grafana:4.2.0
+        container_name: grafana
+        ports:
+            - "3000:3000"
+        env_file:
+            - 'env.grafana'
+        links:
+            - influxdb
+        volumes:
+            # Data persistency
+            - ./grafana_data:/var/lib/grafana
