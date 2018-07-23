@@ -53,6 +53,9 @@ LoadPlugin network
 ```
 
 
+See an example in `influxdb/collectd.conf`
+
+
 ### Login
 
 Default grafana login:
