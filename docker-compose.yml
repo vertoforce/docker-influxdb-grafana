@@ -3,6 +3,7 @@ version: '3'
 services:
     influxdb:
         build: influxdb/
+        image: vertoforce/influxdb_with_collectd
         container_name: influxdb
         ports:
             - "8083:8083"
